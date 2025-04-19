@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Heart, MessageSquare, Calendar, User, Share } from "lucide-react";
 
 // Mock data for post detail
@@ -53,7 +53,7 @@ const PostDetail = () => {
           <Card className="mb-6">
             <CardHeader className="pb-3">
               <div className="flex justify-between items-start">
-                <div className="flex items-center">
+                <Link to={`/user/${POST_DETAIL.author.id}`} className="flex items-center hover:opacity-80">
                   <Avatar className="h-10 w-10 mr-3">
                     <AvatarImage src={POST_DETAIL.author.avatar} alt={POST_DETAIL.author.name} />
                     <AvatarFallback>{POST_DETAIL.author.name.substring(0, 2)}</AvatarFallback>
@@ -68,7 +68,7 @@ const PostDetail = () => {
                       <span>{new Date(POST_DETAIL.time).toLocaleDateString('zh-CN')}</span>
                     </div>
                   </div>
-                </div>
+                </Link>
                 <Badge variant="outline">{POST_DETAIL.category}</Badge>
               </div>
             </CardHeader>
@@ -120,14 +120,18 @@ const PostDetail = () => {
                   
                   {POST_DETAIL.comments.map(comment => (
                     <div key={comment.id} className="flex items-start gap-4 pt-4 border-t border-border">
-                      <Avatar>
-                        <AvatarImage src={comment.user.avatar} alt={comment.user.name} />
-                        <AvatarFallback>{comment.user.name.substring(0, 2)}</AvatarFallback>
-                      </Avatar>
+                      <Link to={`/user/${comment.user.id}`}>
+                        <Avatar>
+                          <AvatarImage src={comment.user.avatar} alt={comment.user.name} />
+                          <AvatarFallback>{comment.user.name.substring(0, 2)}</AvatarFallback>
+                        </Avatar>
+                      </Link>
                       <div className="flex-1">
                         <div className="flex justify-between items-start">
                           <div>
-                            <p className="font-medium">{comment.user.name}</p>
+                            <Link to={`/user/${comment.user.id}`} className="font-medium hover:text-primary">
+                              {comment.user.name}
+                            </Link>
                             <div className="flex items-center text-xs text-muted-foreground">
                               <User className="h-3 w-3 mr-1" />
                               <span>{comment.user.school}</span>
