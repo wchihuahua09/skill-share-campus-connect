@@ -1,9 +1,6 @@
-
 import { Link } from "react-router-dom";
-
 export function Footer() {
-  return (
-    <footer className="bg-secondary/50 py-10 border-t border-border">
+  return <footer className="bg-secondary/50 py-10 border-t border-border">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
@@ -43,14 +40,10 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-4">常见问题</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/help/how-it-works" className="text-muted-foreground hover:text-primary">
-                  如何使用
-                </Link>
+                
               </li>
               <li>
-                <Link to="/help/faq" className="text-muted-foreground hover:text-primary">
-                  常见问题
-                </Link>
+                
               </li>
               <li>
                 <Link to="/help/contact" className="text-muted-foreground hover:text-primary">
@@ -96,6 +89,5 @@ export function Footer() {
           </p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 }
