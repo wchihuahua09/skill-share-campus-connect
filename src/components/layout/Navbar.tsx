@@ -62,10 +62,10 @@ export function Navbar() {
               </DropdownMenu>
             </> : <>
               <Button variant="ghost" asChild>
-                <Link to="/auth?tab=login">登录</Link>
+                
               </Button>
               <Button variant="default" asChild>
-                <Link to="/auth?tab=register">注册</Link>
+                <Link to="/auth?tab=register">登录</Link>
               </Button>
             </>}
         </div>
