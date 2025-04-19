@@ -1,12 +1,29 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, User, Bell, Menu, X } from "lucide-react";
+import { Search, Bell, Menu, X } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Temporary, would be replaced by auth state
+  const [userInfo, setUserInfo] = useState<any>(null);
+  
+  useEffect(() => {
+    // Check if user is logged in on component mount
+    const storedUserInfo = localStorage.getItem('user_info');
+    if (storedUserInfo) {
+      setUserInfo(JSON.parse(storedUserInfo));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user_info');
+    setUserInfo(null);
+  };
 
   return <nav className="sticky top-0 z-50 w-full bg-white border-b border-border shadow-sm">
       <div className="container mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
@@ -31,7 +48,8 @@ export function Navbar() {
             <Link to="/community">社区</Link>
           </Button>
           
-          {isLoggedIn ? <>
+          {userInfo ? (
+            <>
               <Button variant="ghost" className="relative" asChild>
                 <Link to="/notifications">
                   <Bell className="h-5 w-5" />
@@ -41,8 +59,11 @@ export function Navbar() {
               
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="h-9 w-9 rounded-full">
-                    <User className="h-5 w-5" />
+                  <Button variant="ghost" className="h-9 w-9 p-0 rounded-full">
+                    <Avatar>
+                      <AvatarImage src={userInfo.avatar_url} alt={userInfo.username} />
+                      <AvatarFallback>{userInfo.username?.[0]?.toUpperCase() || 'U'}</AvatarFallback>
+                    </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -55,19 +76,22 @@ export function Navbar() {
                   <DropdownMenuItem asChild>
                     <Link to="/exchanges" className="cursor-pointer">交换申请</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer">
+                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
                     退出登录
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            </> : <>
+            </>
+          ) : (
+            <>
               <Button variant="ghost" asChild>
-                
+                <Link to="/auth?tab=login">登录</Link>
               </Button>
               <Button variant="default" asChild>
-                <Link to="/auth?tab=register">登录</Link>
+                <Link to="/auth?tab=register">注册</Link>
               </Button>
-            </>}
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -91,7 +115,8 @@ export function Navbar() {
               社区
             </Link>
             
-            {isLoggedIn ? <>
+            {userInfo ? (
+              <>
                 <Link to="/profile" className="text-foreground hover:text-primary py-2 px-3 rounded-md hover:bg-secondary" onClick={() => setIsMenuOpen(false)}>
                   个人中心
                 </Link>
@@ -102,12 +127,14 @@ export function Navbar() {
                   交换申请
                 </Link>
                 <Button variant="ghost" className="justify-start px-3 font-normal hover:bg-secondary" onClick={() => {
-            setIsMenuOpen(false);
-            // logout logic would go here
-          }}>
+                  handleLogout();
+                  setIsMenuOpen(false);
+                }}>
                   退出登录
                 </Button>
-              </> : <div className="flex space-x-2 mt-2">
+              </>
+            ) : (
+              <div className="flex space-x-2 mt-2">
                 <Button variant="outline" asChild className="flex-1">
                   <Link to="/auth?tab=login" onClick={() => setIsMenuOpen(false)}>
                     登录
@@ -118,7 +145,8 @@ export function Navbar() {
                     注册
                   </Link>
                 </Button>
-              </div>}
+              </div>
+            )}
           </div>
         </div>}
     </nav>;
