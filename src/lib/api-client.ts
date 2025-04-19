@@ -36,37 +36,66 @@ interface AuthResponse {
 
 export const authApi = {
   register: async (params: RegisterParams): Promise<AuthResponse> => {
-    const response = await fetch(`${API_BASE_URL}/auth/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(params),
+    // Mock implementation that simulates a successful registration
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          code: 201,
+          message: "注册成功",
+          data: {
+            user_id: Math.floor(Math.random() * 1000),
+            username: params.username,
+            email: params.email,
+            school: params.school,
+            created_at: new Date().toISOString()
+          }
+        });
+      }, 1000);
     });
-    return response.json();
   },
 
   login: async (params: LoginParams): Promise<AuthResponse> => {
-    const response = await fetch(`${API_BASE_URL}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(params),
+    // Mock implementation that simulates a successful login
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          code: 200,
+          message: "登录成功",
+          data: {
+            token: "mock_jwt_token_" + Math.random().toString(36).substr(2, 9),
+            expires_in: 3600,
+            user_info: {
+              user_id: 123,
+              username: "测试用户",
+              email: params.email,
+              avatar_url: "https://example.com/avatar.jpg",
+              school: "北京大学"
+            }
+          }
+        });
+      }, 1000);
     });
-    return response.json();
   },
 
   getUserInfo: async (userId: string): Promise<AuthResponse> => {
-    const token = localStorage.getItem('auth_token');
-    const response = await fetch(`${API_BASE_URL}/auth/me`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify({ user_id: userId }),
+    // Mock implementation that returns user details
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          code: 200,
+          message: "success",
+          data: {
+            user_id: Number(userId),
+            username: "测试用户",
+            email: "test@example.com",
+            school: "北京大学",
+            major: "计算机科学",
+            avatar_url: "https://example.com/avatar.jpg",
+            created_at: new Date().toISOString()
+          }
+        });
+      }, 1000);
     });
-    return response.json();
   },
 };
+
