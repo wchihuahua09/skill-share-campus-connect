@@ -65,7 +65,7 @@ export function Navbar() {
                     <Link to="/profile" className="cursor-pointer">个人中心</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/skills/my" className="cursor-pointer">我的技能</Link>
+                    
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
                     <Link to="/exchanges" className="cursor-pointer">交换申请</Link>
