@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/layout/Navbar";
@@ -10,129 +9,139 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ArrowRight } from "lucide-react";
 
 // Mock data for featured skills
-const FEATURED_SKILLS: SkillCardProps[] = [
-  {
-    id: "1",
-    title: "Python编程基础教学",
-    description: "可以教授Python编程基础知识，包括语法、数据结构、函数和简单的项目实践。",
-    category: "编程开发",
-    image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
-    user: {
-      id: "user1",
-      name: "王小明",
-      avatar: "https://i.pravatar.cc/150?img=1",
-      school: "北京大学"
-    },
-    rating: 4.8,
-    exchangeCount: 15,
-    createdAt: "2023-09-15T00:00:00Z"
+const FEATURED_SKILLS: SkillCardProps[] = [{
+  id: "1",
+  title: "Python编程基础教学",
+  description: "可以教授Python编程基础知识，包括语法、数据结构、函数和简单的项目实践。",
+  category: "编程开发",
+  image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
+  user: {
+    id: "user1",
+    name: "王小明",
+    avatar: "https://i.pravatar.cc/150?img=1",
+    school: "北京大学"
   },
-  {
-    id: "2",
-    title: "平面设计与PS技巧",
-    description: "擅长使用Photoshop和Illustrator进行平面设计，可以教授海报、logo设计的基本技巧。",
-    category: "设计创意",
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
-    user: {
-      id: "user2",
-      name: "李小红",
-      avatar: "https://i.pravatar.cc/150?img=2",
-      school: "清华大学"
-    },
-    rating: 4.5,
-    exchangeCount: 8,
-    createdAt: "2023-10-01T00:00:00Z"
+  rating: 4.8,
+  exchangeCount: 15,
+  createdAt: "2023-09-15T00:00:00Z"
+}, {
+  id: "2",
+  title: "平面设计与PS技巧",
+  description: "擅长使用Photoshop和Illustrator进行平面设计，可以教授海报、logo设计的基本技巧。",
+  category: "设计创意",
+  image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
+  user: {
+    id: "user2",
+    name: "李小红",
+    avatar: "https://i.pravatar.cc/150?img=2",
+    school: "清华大学"
   },
-  {
-    id: "3",
-    title: "英语口语与写作",
-    description: "英语专业学生，可以提供英语口语练习和学术写作辅导，有丰富的出国交流经验。",
-    category: "语言翻译",
-    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-    user: {
-      id: "user3",
-      name: "张小华",
-      avatar: "https://i.pravatar.cc/150?img=3",
-      school: "复旦大学"
-    },
-    rating: 4.9,
-    exchangeCount: 20,
-    createdAt: "2023-09-20T00:00:00Z"
+  rating: 4.5,
+  exchangeCount: 8,
+  createdAt: "2023-10-01T00:00:00Z"
+}, {
+  id: "3",
+  title: "英语口语与写作",
+  description: "英语专业学生，可以提供英语口语练习和学术写作辅导，有丰富的出国交流经验。",
+  category: "语言翻译",
+  image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+  user: {
+    id: "user3",
+    name: "张小华",
+    avatar: "https://i.pravatar.cc/150?img=3",
+    school: "复旦大学"
   },
-  {
-    id: "4",
-    title: "吉他入门教学",
-    description: "从零基础开始教授吉他弹唱，包括基本和弦、指法训练和简单歌曲演奏。",
-    category: "音乐艺术",
-    user: {
-      id: "user4",
-      name: "陈小强",
-      avatar: "https://i.pravatar.cc/150?img=4",
-      school: "上海交通大学"
-    },
-    rating: 4.7,
-    exchangeCount: 12,
-    createdAt: "2023-10-10T00:00:00Z"
-  }
-];
+  rating: 4.9,
+  exchangeCount: 20,
+  createdAt: "2023-09-20T00:00:00Z"
+}, {
+  id: "4",
+  title: "吉他入门教学",
+  description: "从零基础开始教授吉他弹唱，包括基本和弦、指法训练和简单歌曲演奏。",
+  category: "音乐艺术",
+  user: {
+    id: "user4",
+    name: "陈小强",
+    avatar: "https://i.pravatar.cc/150?img=4",
+    school: "上海交通大学"
+  },
+  rating: 4.7,
+  exchangeCount: 12,
+  createdAt: "2023-10-10T00:00:00Z"
+}];
 
 // Mock data for category counts
-const CATEGORIES = [
-  { name: "编程开发", count: 156, icon: "💻" },
-  { name: "设计创意", count: 98, icon: "🎨" },
-  { name: "语言翻译", count: 87, icon: "🌎" },
-  { name: "学术辅导", count: 132, icon: "📚" },
-  { name: "音乐艺术", count: 64, icon: "🎵" },
-  { name: "运动健身", count: 45, icon: "🏀" },
-  { name: "摄影摄像", count: 38, icon: "📷" },
-  { name: "写作创作", count: 52, icon: "✍️" }
-];
+const CATEGORIES = [{
+  name: "编程开发",
+  count: 156,
+  icon: "💻"
+}, {
+  name: "设计创意",
+  count: 98,
+  icon: "🎨"
+}, {
+  name: "语言翻译",
+  count: 87,
+  icon: "🌎"
+}, {
+  name: "学术辅导",
+  count: 132,
+  icon: "📚"
+}, {
+  name: "音乐艺术",
+  count: 64,
+  icon: "🎵"
+}, {
+  name: "运动健身",
+  count: 45,
+  icon: "🏀"
+}, {
+  name: "摄影摄像",
+  count: 38,
+  icon: "📷"
+}, {
+  name: "写作创作",
+  count: 52,
+  icon: "✍️"
+}];
 
 // Mock data for testimonials
-const TESTIMONIALS = [
-  {
-    id: "t1",
-    content: "通过技能交换平台，我学到了摄影技巧，同时也把我的英语写作技能教给了别人。这种双赢的交流方式真的很棒！",
-    user: {
-      name: "刘同学",
-      avatar: "https://i.pravatar.cc/150?img=5",
-      school: "浙江大学",
-      major: "传媒学院"
-    }
-  },
-  {
-    id: "t2",
-    content: "之前一直想学习UI设计，但苦于没有资源。在这个平台上找到了愿意交换的同学，我教他数学，他教我设计，互惠互利！",
-    user: {
-      name: "张同学",
-      avatar: "https://i.pravatar.cc/150?img=6",
-      school: "南京大学",
-      major: "数学系"
-    }
-  },
-  {
-    id: "t3",
-    content: "作为计算机专业的学生，我通过平台将编程知识与音乐爱好者交换，学到了吉他技巧。这种跨学科的交流让我的大学生活更加丰富多彩。",
-    user: {
-      name: "王同学",
-      avatar: "https://i.pravatar.cc/150?img=7",
-      school: "武汉大学",
-      major: "计算机科学"
-    }
+const TESTIMONIALS = [{
+  id: "t1",
+  content: "通过技能交换平台，我学到了摄影技巧，同时也把我的英语写作技能教给了别人。这种双赢的交流方式真的很棒！",
+  user: {
+    name: "刘同学",
+    avatar: "https://i.pravatar.cc/150?img=5",
+    school: "浙江大学",
+    major: "传媒学院"
   }
-];
-
+}, {
+  id: "t2",
+  content: "之前一直想学习UI设计，但苦于没有资源。在这个平台上找到了愿意交换的同学，我教他数学，他教我设计，互惠互利！",
+  user: {
+    name: "张同学",
+    avatar: "https://i.pravatar.cc/150?img=6",
+    school: "南京大学",
+    major: "数学系"
+  }
+}, {
+  id: "t3",
+  content: "作为计算机专业的学生，我通过平台将编程知识与音乐爱好者交换，学到了吉他技巧。这种跨学科的交流让我的大学生活更加丰富多彩。",
+  user: {
+    name: "王同学",
+    avatar: "https://i.pravatar.cc/150?img=7",
+    school: "武汉大学",
+    major: "计算机科学"
+  }
+}];
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     // In a real app, this would redirect to the search results page
     window.location.href = `/skills?q=${encodeURIComponent(query)}`;
   };
-  
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-grow">
@@ -147,11 +156,7 @@ const Index = () => {
             </p>
             
             <div className="max-w-xl mx-auto mb-8">
-              <SearchBar 
-                placeholder="搜索你感兴趣的技能..." 
-                onSearch={handleSearch}
-                className="w-full"
-              />
+              <SearchBar placeholder="搜索你感兴趣的技能..." onSearch={handleSearch} className="w-full" />
             </div>
             
             <div className="flex flex-wrap justify-center gap-4 mt-6">
@@ -159,7 +164,7 @@ const Index = () => {
                 <Link to="/skills">浏览技能</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link to="/auth?tab=register">立即注册</Link>
+                
               </Button>
             </div>
           </div>
@@ -181,19 +186,13 @@ const Index = () => {
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {CATEGORIES.map((category) => (
-                <Link 
-                  key={category.name}
-                  to={`/skills?category=${encodeURIComponent(category.name)}`}
-                  className="bg-secondary/50 hover:bg-secondary rounded-lg p-4 text-center transition-colors group"
-                >
+              {CATEGORIES.map(category => <Link key={category.name} to={`/skills?category=${encodeURIComponent(category.name)}`} className="bg-secondary/50 hover:bg-secondary rounded-lg p-4 text-center transition-colors group">
                   <div className="text-4xl mb-2">{category.icon}</div>
                   <h3 className="font-medium mb-1 group-hover:text-primary transition-colors">
                     {category.name}
                   </h3>
                   <p className="text-sm text-muted-foreground">{category.count}个技能</p>
-                </Link>
-              ))}
+                </Link>)}
             </div>
             
             <div className="text-center mt-8">
@@ -224,9 +223,7 @@ const Index = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {FEATURED_SKILLS.map((skill) => (
-                <SkillCard key={skill.id} {...skill} />
-              ))}
+              {FEATURED_SKILLS.map(skill => <SkillCard key={skill.id} {...skill} />)}
             </div>
           </div>
         </section>
@@ -302,11 +299,7 @@ const Index = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {TESTIMONIALS.map((testimonial) => (
-                <div 
-                  key={testimonial.id} 
-                  className="bg-white p-6 rounded-lg shadow-sm border border-border"
-                >
+              {TESTIMONIALS.map(testimonial => <div key={testimonial.id} className="bg-white p-6 rounded-lg shadow-sm border border-border">
                   <p className="italic text-muted-foreground mb-6">"{testimonial.content}"</p>
                   <div className="flex items-center">
                     <Avatar className="h-10 w-10 mr-3">
@@ -320,8 +313,7 @@ const Index = () => {
                       </p>
                     </div>
                   </div>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
         </section>
@@ -348,8 +340,6 @@ const Index = () => {
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
