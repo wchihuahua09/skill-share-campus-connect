@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Bell, Menu, X } from "lucide-react";
@@ -9,6 +9,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userInfo, setUserInfo] = useState<any>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem('user_info');
@@ -21,6 +22,7 @@ export function Navbar() {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user_info');
     setUserInfo(null);
+    navigate('/');
   };
 
   return (
@@ -33,7 +35,8 @@ export function Navbar() {
           </Link>
           
           <div className="hidden md:flex relative ml-6">
-            
+            <Input type="search" placeholder="搜索技能..." className="w-full pl-10" />
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
           </div>
         </div>
 
@@ -49,7 +52,7 @@ export function Navbar() {
           {userInfo ? (
             <>
               <Button variant="ghost" className="relative" asChild>
-                
+                <Link to="/messages">消息</Link>
               </Button>
               
               <DropdownMenu>
@@ -66,9 +69,6 @@ export function Navbar() {
                     <Link to="/profile" className="cursor-pointer">个人中心</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
                     <Link to="/exchanges" className="cursor-pointer">交换申请</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
@@ -80,10 +80,10 @@ export function Navbar() {
           ) : (
             <>
               <Button variant="ghost" asChild>
-                
+                <Link to="/login">登录</Link>
               </Button>
               <Button variant="default" asChild>
-                <Link to="/auth?tab=register">登录</Link>
+                <Link to="/register">注册</Link>
               </Button>
             </>
           )}
@@ -115,9 +115,6 @@ export function Navbar() {
               <>
                 <Link to="/profile" className="text-foreground hover:text-primary py-2 px-3 rounded-md hover:bg-secondary" onClick={() => setIsMenuOpen(false)}>
                   个人中心
-                </Link>
-                <Link to="/skills/my" className="text-foreground hover:text-primary py-2 px-3 rounded-md hover:bg-secondary" onClick={() => setIsMenuOpen(false)}>
-                  我的技能
                 </Link>
                 <Link to="/exchanges" className="text-foreground hover:text-primary py-2 px-3 rounded-md hover:bg-secondary" onClick={() => setIsMenuOpen(false)}>
                   交换申请
