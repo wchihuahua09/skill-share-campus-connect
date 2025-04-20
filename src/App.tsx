@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import Community from "./pages/Community";
 import PostDetail from "./pages/PostDetail";
 import UserProfile from "./pages/UserProfile";
+import Messages from "./pages/Messages";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/community" element={<Community />} />
           <Route path="/community/post/:id" element={<PostDetail />} />
           <Route path="/user/:id" element={<UserProfile />} />
+          <Route path="/messages" element={<Messages />} />
           <Route path="/auth" element={<Auth />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

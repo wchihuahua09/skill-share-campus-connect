@@ -2,24 +2,27 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Bell, Menu, X } from "lucide-react";
+import { Search, Bell, Menu, X, MessageCircle } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userInfo, setUserInfo] = useState<any>(null);
+
   useEffect(() => {
-    // Check if user is logged in on component mount
     const storedUserInfo = localStorage.getItem('user_info');
     if (storedUserInfo) {
       setUserInfo(JSON.parse(storedUserInfo));
     }
   }, []);
+
   const handleLogout = () => {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user_info');
     setUserInfo(null);
   };
+
   return <nav className="sticky top-0 z-50 w-full bg-white border-b border-border shadow-sm">
       <div className="container mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
         <div className="flex items-center space-x-4">
@@ -29,7 +32,6 @@ export function Navbar() {
           </Link>
           
           <div className="hidden md:flex relative ml-6">
-            
             
           </div>
         </div>
@@ -50,6 +52,11 @@ export function Navbar() {
                   <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
                 </Link>
               </Button>
+              <Button variant="ghost" className="relative" asChild>
+                <Link to="/messages">
+                  <MessageCircle className="h-5 w-5" />
+                </Link>
+              </Button>
               
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -68,7 +75,7 @@ export function Navbar() {
                     <Link to="/skills/my" className="cursor-pointer">我的技能</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/exchanges" className="cursor-pointer">交换申请</Link>
+                    <Link to="/exchanges" className="cursor-pointer">交换申���</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
                     退出登录
@@ -115,6 +122,9 @@ export function Navbar() {
                 </Link>
                 <Link to="/exchanges" className="text-foreground hover:text-primary py-2 px-3 rounded-md hover:bg-secondary" onClick={() => setIsMenuOpen(false)}>
                   交换申请
+                </Link>
+                <Link to="/messages" className="text-foreground hover:text-primary py-2 px-3 rounded-md hover:bg-secondary" onClick={() => setIsMenuOpen(false)}>
+                  消息
                 </Link>
                 <Button variant="ghost" className="justify-start px-3 font-normal hover:bg-secondary" onClick={() => {
             handleLogout();
