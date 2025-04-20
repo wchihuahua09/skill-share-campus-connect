@@ -45,10 +45,7 @@ export function Navbar() {
           
           {userInfo ? <>
               <Button variant="ghost" className="relative" asChild>
-                <Link to="/notifications">
-                  <Bell className="h-5 w-5" />
-                  
-                </Link>
+                
               </Button>
               
               <DropdownMenu>
