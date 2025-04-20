@@ -161,7 +161,7 @@ const Index = () => {
             
             <div className="flex flex-wrap justify-center gap-4 mt-6">
               <Button asChild size="lg">
-                <Link to="/skills">浏览技能</Link>
+                
               </Button>
               <Button asChild variant="outline" size="lg">
                 
@@ -282,7 +282,7 @@ const Index = () => {
             
             <div className="text-center mt-10">
               <Button asChild size="lg">
-                <Link to="/auth?tab=register">立即开始</Link>
+                
               </Button>
             </div>
           </div>
@@ -332,7 +332,7 @@ const Index = () => {
                 <Link to="/skills">探索技能</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="bg-transparent text-white border-white hover:bg-white/10">
-                <Link to="/auth?tab=register">立即注册</Link>
+                
               </Button>
             </div>
           </div>
