@@ -11,9 +11,10 @@ import Community from "./pages/Community";
 import PostDetail from "./pages/PostDetail";
 import UserProfile from "./pages/UserProfile";
 import Messages from "./pages/Messages";
-import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import Exchanges from "./pages/Exchanges";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 const queryClient = new QueryClient();
 
@@ -32,7 +33,8 @@ const App = () => (
           <Route path="/community/post/:id" element={<PostDetail />} />
           <Route path="/user/:id" element={<UserProfile />} />
           <Route path="/messages" element={<Messages />} />
-          <Route path="/auth" element={<Auth />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/exchanges" element={<Exchanges />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

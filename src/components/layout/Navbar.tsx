@@ -132,12 +132,12 @@ export function Navbar() {
             ) : (
               <div className="flex space-x-2 mt-2">
                 <Button variant="outline" asChild className="flex-1">
-                  <Link to="/auth?tab=login" onClick={() => setIsMenuOpen(false)}>
+                  <Link to="/login" onClick={() => setIsMenuOpen(false)}>
                     登录
                   </Link>
                 </Button>
                 <Button variant="default" asChild className="flex-1">
-                  <Link to="/auth?tab=register" onClick={() => setIsMenuOpen(false)}>
+                  <Link to="/register" onClick={() => setIsMenuOpen(false)}>
                     注册
                   </Link>
                 </Button>
