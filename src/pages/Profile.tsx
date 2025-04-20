@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/layout/Navbar";
@@ -21,7 +20,6 @@ import {
   ThumbsUp
 } from "lucide-react";
 
-// Mock user data
 const USER_DATA = {
   id: "user1",
   name: "王小明",
@@ -192,8 +190,8 @@ const USER_DATA = {
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("skills");
-  const user = USER_DATA; // In a real app, this would come from a user context or API
-  
+  const user = USER_DATA;
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -286,12 +284,6 @@ const Profile = () => {
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="mb-8">
               <TabsTrigger value="skills">我的技能 ({user.skills.length})</TabsTrigger>
-              <TabsTrigger value="exchanges">
-                交换申请 
-                <Badge variant="secondary" className="ml-2">
-                  {user.exchanges.filter(ex => ex.status === "pending").length}
-                </Badge>
-              </TabsTrigger>
               <TabsTrigger value="favorites">收藏技能 ({user.favorites.length})</TabsTrigger>
             </TabsList>
             
@@ -320,219 +312,6 @@ const Profile = () => {
                   </Button>
                 </div>
               )}
-            </TabsContent>
-            
-            <TabsContent value="exchanges">
-              <div className="space-y-6">
-                {user.exchanges.length > 0 ? (
-                  <>
-                    {/* Pending Exchanges */}
-                    {user.exchanges.filter(ex => ex.status === "pending").length > 0 && (
-                      <div>
-                        <h2 className="text-xl font-semibold mb-4">待处理的申请</h2>
-                        <div className="space-y-4">
-                          {user.exchanges
-                            .filter(ex => ex.status === "pending")
-                            .map((exchange) => (
-                              <div 
-                                key={exchange.id} 
-                                className="bg-white border border-border rounded-lg p-5"
-                              >
-                                <div className="flex justify-between items-start">
-                                  <div className="flex items-center">
-                                    <Avatar className="h-10 w-10 mr-3">
-                                      <AvatarImage src={exchange.otherUser.avatar} alt={exchange.otherUser.name} />
-                                      <AvatarFallback>{exchange.otherUser.name.substring(0, 2)}</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                      <p className="font-medium">{exchange.otherUser.name}</p>
-                                      <p className="text-sm text-muted-foreground">{exchange.otherUser.school}</p>
-                                    </div>
-                                  </div>
-                                  <Badge className="bg-yellow-500">等待处理</Badge>
-                                </div>
-                                
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-4 p-3 bg-secondary/30 rounded-lg">
-                                  <div className="mb-2 sm:mb-0">
-                                    <p className="text-sm text-muted-foreground">申请技能</p>
-                                    <p className="font-medium">{exchange.requestedSkill.title}</p>
-                                  </div>
-                                  <div className="hidden sm:block text-muted-foreground">
-                                    <MessageSquare className="h-5 w-5" />
-                                  </div>
-                                  <div className="text-right">
-                                    <p className="text-sm text-muted-foreground">提供技能</p>
-                                    <p className="font-medium">{exchange.offeredSkill.title}</p>
-                                  </div>
-                                </div>
-                                
-                                <div className="mt-4">
-                                  <p className="text-sm font-medium">申请留言：</p>
-                                  <p className="text-muted-foreground mt-1">{exchange.message}</p>
-                                </div>
-                                
-                                <div className="flex justify-between items-center mt-4">
-                                  <div className="text-sm text-muted-foreground flex items-center">
-                                    <Clock className="h-4 w-4 mr-1" />
-                                    <span>{new Date(exchange.requestDate).toLocaleDateString('zh-CN')}</span>
-                                  </div>
-                                  <div>
-                                    <Button variant="destructive" size="sm" className="mr-2">
-                                      拒绝
-                                    </Button>
-                                    <Button size="sm">
-                                      接受
-                                    </Button>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                        </div>
-                      </div>
-                    )}
-                    
-                    {/* Accepted Exchanges */}
-                    {user.exchanges.filter(ex => ex.status === "accepted").length > 0 && (
-                      <div>
-                        <h2 className="text-xl font-semibold mb-4">进行中的交换</h2>
-                        <div className="space-y-4">
-                          {user.exchanges
-                            .filter(ex => ex.status === "accepted")
-                            .map((exchange) => (
-                              <div 
-                                key={exchange.id} 
-                                className="bg-white border border-border rounded-lg p-5"
-                              >
-                                <div className="flex justify-between items-start">
-                                  <div className="flex items-center">
-                                    <Avatar className="h-10 w-10 mr-3">
-                                      <AvatarImage src={exchange.otherUser.avatar} alt={exchange.otherUser.name} />
-                                      <AvatarFallback>{exchange.otherUser.name.substring(0, 2)}</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                      <p className="font-medium">{exchange.otherUser.name}</p>
-                                      <p className="text-sm text-muted-foreground">{exchange.otherUser.school}</p>
-                                    </div>
-                                  </div>
-                                  <Badge className="bg-green-500">进行中</Badge>
-                                </div>
-                                
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-4 p-3 bg-secondary/30 rounded-lg">
-                                  <div className="mb-2 sm:mb-0">
-                                    <p className="text-sm text-muted-foreground">申请技能</p>
-                                    <p className="font-medium">{exchange.requestedSkill.title}</p>
-                                  </div>
-                                  <div className="hidden sm:block text-muted-foreground">
-                                    <MessageSquare className="h-5 w-5" />
-                                  </div>
-                                  <div className="text-right">
-                                    <p className="text-sm text-muted-foreground">提供技能</p>
-                                    <p className="font-medium">{exchange.offeredSkill.title}</p>
-                                  </div>
-                                </div>
-                                
-                                <div className="flex justify-between items-center mt-4">
-                                  <div className="text-sm text-muted-foreground flex items-center">
-                                    <Clock className="h-4 w-4 mr-1" />
-                                    <span>接受于 {new Date(exchange.requestDate).toLocaleDateString('zh-CN')}</span>
-                                  </div>
-                                  <div>
-                                    <Button size="sm">
-                                      联系对方
-                                    </Button>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                        </div>
-                      </div>
-                    )}
-                    
-                    {/* Completed Exchanges */}
-                    {user.exchanges.filter(ex => ex.status === "completed").length > 0 && (
-                      <div>
-                        <h2 className="text-xl font-semibold mb-4">已完成的交换</h2>
-                        <div className="space-y-4">
-                          {user.exchanges
-                            .filter(ex => ex.status === "completed")
-                            .map((exchange) => (
-                              <div 
-                                key={exchange.id} 
-                                className="bg-white border border-border rounded-lg p-5"
-                              >
-                                <div className="flex justify-between items-start">
-                                  <div className="flex items-center">
-                                    <Avatar className="h-10 w-10 mr-3">
-                                      <AvatarImage src={exchange.otherUser.avatar} alt={exchange.otherUser.name} />
-                                      <AvatarFallback>{exchange.otherUser.name.substring(0, 2)}</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                      <p className="font-medium">{exchange.otherUser.name}</p>
-                                      <p className="text-sm text-muted-foreground">{exchange.otherUser.school}</p>
-                                    </div>
-                                  </div>
-                                  <Badge className="bg-blue-500">已完成</Badge>
-                                </div>
-                                
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-4 p-3 bg-secondary/30 rounded-lg">
-                                  <div className="mb-2 sm:mb-0">
-                                    <p className="text-sm text-muted-foreground">申请技能</p>
-                                    <p className="font-medium">{exchange.requestedSkill.title}</p>
-                                  </div>
-                                  <div className="hidden sm:block text-muted-foreground">
-                                    <MessageSquare className="h-5 w-5" />
-                                  </div>
-                                  <div className="text-right">
-                                    <p className="text-sm text-muted-foreground">提供技能</p>
-                                    <p className="font-medium">{exchange.offeredSkill.title}</p>
-                                  </div>
-                                </div>
-                                
-                                {exchange.review && (
-                                  <div className="mt-4 p-3 bg-secondary/30 rounded-lg">
-                                    <div className="flex justify-between items-center mb-2">
-                                      <p className="text-sm font-medium">收到的评价：</p>
-                                      <div className="flex items-center">
-                                        {Array.from({ length: 5 }).map((_, i) => (
-                                          <Star
-                                            key={i}
-                                            className={`h-4 w-4 ${
-                                              i < exchange.review!.rating
-                                                ? "text-yellow-500 fill-yellow-500"
-                                                : "text-gray-300"
-                                            }`}
-                                          />
-                                        ))}
-                                      </div>
-                                    </div>
-                                    <p className="text-muted-foreground text-sm">{exchange.review.content}</p>
-                                  </div>
-                                )}
-                                
-                                <div className="flex justify-between items-center mt-4">
-                                  <div className="text-sm text-muted-foreground flex items-center">
-                                    <ThumbsUp className="h-4 w-4 mr-1" />
-                                    <span>完成于 {new Date(exchange.completedDate!).toLocaleDateString('zh-CN')}</span>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                        </div>
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <div className="bg-white border border-border rounded-lg p-8 text-center">
-                    <h3 className="text-lg font-semibold mb-2">暂无交换申请</h3>
-                    <p className="text-muted-foreground mb-4">
-                      浏览技能列表，寻找感兴趣的技能进行交换
-                    </p>
-                    <Button asChild>
-                      <Link to="/skills">浏览技能</Link>
-                    </Button>
-                  </div>
-                )}
-              </div>
             </TabsContent>
             
             <TabsContent value="favorites">

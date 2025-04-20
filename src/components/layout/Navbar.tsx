@@ -5,22 +5,26 @@ import { Input } from "@/components/ui/input";
 import { Search, Bell, Menu, X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userInfo, setUserInfo] = useState<any>(null);
+
   useEffect(() => {
-    // Check if user is logged in on component mount
     const storedUserInfo = localStorage.getItem('user_info');
     if (storedUserInfo) {
       setUserInfo(JSON.parse(storedUserInfo));
     }
   }, []);
+
   const handleLogout = () => {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user_info');
     setUserInfo(null);
   };
-  return <nav className="sticky top-0 z-50 w-full bg-white border-b border-border shadow-sm">
+
+  return (
+    <nav className="sticky top-0 z-50 w-full bg-white border-b border-border shadow-sm">
       <div className="container mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <Link to="/" className="flex items-center space-x-2">
@@ -29,7 +33,6 @@ export function Navbar() {
           </Link>
           
           <div className="hidden md:flex relative ml-6">
-            
             
           </div>
         </div>
@@ -43,7 +46,8 @@ export function Navbar() {
             <Link to="/community">社区</Link>
           </Button>
           
-          {userInfo ? <>
+          {userInfo ? (
+            <>
               <Button variant="ghost" className="relative" asChild>
                 
               </Button>
@@ -72,14 +76,17 @@ export function Navbar() {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            </> : <>
+            </>
+          ) : (
+            <>
               <Button variant="ghost" asChild>
                 
               </Button>
               <Button variant="default" asChild>
                 <Link to="/auth?tab=register">登录</Link>
               </Button>
-            </>}
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -89,7 +96,8 @@ export function Navbar() {
       </div>
 
       {/* Mobile Navigation */}
-      {isMenuOpen && <div className="md:hidden p-4 pb-6 bg-white border-b border-border">
+      {isMenuOpen && (
+        <div className="md:hidden p-4 pb-6 bg-white border-b border-border">
           <div className="mb-4 relative">
             <Input type="search" placeholder="搜索技能..." className="w-full pl-10" />
             <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -103,7 +111,8 @@ export function Navbar() {
               社区
             </Link>
             
-            {userInfo ? <>
+            {userInfo ? (
+              <>
                 <Link to="/profile" className="text-foreground hover:text-primary py-2 px-3 rounded-md hover:bg-secondary" onClick={() => setIsMenuOpen(false)}>
                   个人中心
                 </Link>
@@ -114,12 +123,14 @@ export function Navbar() {
                   交换申请
                 </Link>
                 <Button variant="ghost" className="justify-start px-3 font-normal hover:bg-secondary" onClick={() => {
-            handleLogout();
-            setIsMenuOpen(false);
-          }}>
+                  handleLogout();
+                  setIsMenuOpen(false);
+                }}>
                   退出登录
                 </Button>
-              </> : <div className="flex space-x-2 mt-2">
+              </>
+            ) : (
+              <div className="flex space-x-2 mt-2">
                 <Button variant="outline" asChild className="flex-1">
                   <Link to="/auth?tab=login" onClick={() => setIsMenuOpen(false)}>
                     登录
@@ -130,8 +141,11 @@ export function Navbar() {
                     注册
                   </Link>
                 </Button>
-              </div>}
+              </div>
+            )}
           </div>
-        </div>}
-    </nav>;
+        </div>
+      )}
+    </nav>
+  );
 }
