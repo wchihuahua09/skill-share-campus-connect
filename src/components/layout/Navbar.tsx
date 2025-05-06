@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -78,14 +79,9 @@ export function Navbar() {
               </DropdownMenu>
             </>
           ) : (
-            <>
-              <Button variant="ghost" asChild>
-                <Link to="/login">登录</Link>
-              </Button>
-              <Button variant="default" asChild>
-                <Link to="/register">注册</Link>
-              </Button>
-            </>
+            <Button variant="default" asChild>
+              <Link to="/login">登录</Link>
+            </Button>
           )}
         </div>
 
@@ -127,15 +123,10 @@ export function Navbar() {
                 </Button>
               </>
             ) : (
-              <div className="flex space-x-2 mt-2">
-                <Button variant="outline" asChild className="flex-1">
+              <div className="flex mt-2">
+                <Button variant="default" asChild className="flex-1">
                   <Link to="/login" onClick={() => setIsMenuOpen(false)}>
                     登录
-                  </Link>
-                </Button>
-                <Button variant="default" asChild className="flex-1">
-                  <Link to="/register" onClick={() => setIsMenuOpen(false)}>
-                    注册
                   </Link>
                 </Button>
               </div>

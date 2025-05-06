@@ -15,7 +15,6 @@ import Messages from "./pages/Messages";
 import NotFound from "./pages/NotFound";
 import Exchanges from "./pages/Exchanges";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
 
 const queryClient = new QueryClient();
 
@@ -35,7 +34,6 @@ const App = () => (
           <Route path="/user/:id" element={<UserProfile />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/exchanges" element={<Exchanges />} />
           <Route path="/auth" element={<Navigate to="/login" replace />} />
           <Route path="*" element={<NotFound />} />
