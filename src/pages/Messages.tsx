@@ -5,11 +5,11 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent } from "@/components/ui/card";
 import { MessageCircle, Send } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 // Mock conversations data
-const CONVERSATIONS = [
+const INITIAL_CONVERSATIONS = [
   {
     id: 1,
     user: {
@@ -63,6 +63,7 @@ const MESSAGES = [
 ];
 
 const Messages = () => {
+  const [conversations, setConversations] = useState(INITIAL_CONVERSATIONS);
   const [selectedConversation, setSelectedConversation] = useState<number | null>(null);
   const [newMessage, setNewMessage] = useState("");
 
@@ -70,6 +71,29 @@ const Messages = () => {
     if (!newMessage.trim()) return;
     console.log("Sending message:", newMessage);
     setNewMessage("");
+  };
+
+  const handleSelectConversation = (conversationId: number) => {
+    // Mark messages as read when conversation is selected
+    setConversations(prev => 
+      prev.map(conv => 
+        conv.id === conversationId 
+          ? { ...conv, user: { ...conv.user, unread: 0 } } 
+          : conv
+      )
+    );
+    
+    setSelectedConversation(conversationId);
+    
+    // Show toast notification for unread messages being marked as read
+    const conversation = conversations.find(c => c.id === conversationId);
+    if (conversation && conversation.user.unread > 0) {
+      toast({
+        title: "已读消息",
+        description: `已将 ${conversation.user.name} 的消息标记为已读`,
+        duration: 2000
+      });
+    }
   };
 
   return (
@@ -85,13 +109,13 @@ const Messages = () => {
                 <h2 className="text-lg font-semibold">消息列表</h2>
               </div>
               <div className="overflow-y-auto h-[calc(600px-4rem)]">
-                {CONVERSATIONS.map((conversation) => (
+                {conversations.map((conversation) => (
                   <div
                     key={conversation.id}
                     className={`p-4 border-b hover:bg-secondary/20 cursor-pointer ${
                       selectedConversation === conversation.id ? "bg-secondary/20" : ""
-                    }`}
-                    onClick={() => setSelectedConversation(conversation.id)}
+                    } ${conversation.user.unread > 0 ? "bg-secondary/10" : ""}`}
+                    onClick={() => handleSelectConversation(conversation.id)}
                   >
                     <div className="flex items-start gap-3">
                       <Avatar>
@@ -100,7 +124,9 @@ const Messages = () => {
                       </Avatar>
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-start">
-                          <span className="font-medium">{conversation.user.name}</span>
+                          <span className={`font-medium ${conversation.user.unread > 0 ? "font-semibold" : ""}`}>
+                            {conversation.user.name}
+                          </span>
                           <span className="text-xs text-muted-foreground">{conversation.user.lastTime}</span>
                         </div>
                         <p className="text-sm text-muted-foreground truncate">{conversation.user.lastMessage}</p>
@@ -125,15 +151,15 @@ const Messages = () => {
                     <div className="flex items-center gap-3">
                       <Avatar className="h-8 w-8">
                         <AvatarImage
-                          src={CONVERSATIONS.find(c => c.id === selectedConversation)?.user.avatar}
+                          src={conversations.find(c => c.id === selectedConversation)?.user.avatar}
                           alt="User avatar"
                         />
                         <AvatarFallback>
-                          {CONVERSATIONS.find(c => c.id === selectedConversation)?.user.name[0]}
+                          {conversations.find(c => c.id === selectedConversation)?.user.name[0]}
                         </AvatarFallback>
                       </Avatar>
                       <span className="font-medium">
-                        {CONVERSATIONS.find(c => c.id === selectedConversation)?.user.name}
+                        {conversations.find(c => c.id === selectedConversation)?.user.name}
                       </span>
                     </div>
                   </div>
